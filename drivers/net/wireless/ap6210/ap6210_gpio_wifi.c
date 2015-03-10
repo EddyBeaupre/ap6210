@@ -159,11 +159,11 @@ void ap6210_gpio_init(void)
 	struct ap6210_gpio_wifi_ops *ops = &ap6210_wifi_select_pm_ops;
 	int ap6210_lpo = 0;
 
-/* CT expected ap6210_lpo as a GPIO */
+/* CT expected ap6210_lpo as a GPIO , but for customized board, it's surely OK you handle it by other design, e.g. external OSC*/
 	ap6210_lpo = gpio_request_ex(wifi_para, "ap6xxx_lpo");
 	if (!ap6210_lpo) {
-		AP6210_ERR("request lpo gpio failed.\n" );
-		return;
+		AP6210_INFO("Not using lpo gpio for clock.\n" );
+//		return;
 	}
 
 	if(ap6210_lpo) {
