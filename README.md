@@ -31,4 +31,6 @@ Feel free to improve the code and submit bugfix...
 
 1. Depends on the clock solution, if 'ap6xxx_lpo' is not defined in script.bin, then lpo config will be ignored in driver, supposing the clock is handled by external independant design;
 
+2. Please ensure in script.bin, the pin of 'ap6xxx_wl_host_wake' also have been defined as 2nd GPIO (besides the [wifi_para] section) correctly in [gpio_para] session, as it's now hard coded in the driver;
 
+3. BLUETOOTH is not tested/verified.
