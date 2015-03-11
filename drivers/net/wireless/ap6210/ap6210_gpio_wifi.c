@@ -137,8 +137,10 @@ static void ap6210_cfg_gpio_32k_clkout(int gpio_index)
 	int ret;    
 	struct clk *clk_32k, *parent;    
     
-	parent = clk_get(NULL, CLK_SYS_LOSC);	
-	clk_32k = clk_get(NULL, CLK_MOD_OUTA);
+	//parent = clk_get(NULL, CLK_SYS_LOSC);	
+	//clk_32k = clk_get(NULL, CLK_MOD_OUTA);
+	parent = clk_get(NULL, 'losc');	
+	clk_32k = clk_get(NULL, 'clockout_a');
 	ret = clk_set_parent(clk_32k, parent);
 
 	if(ret){
@@ -157,19 +159,18 @@ static void ap6210_cfg_gpio_32k_clkout(int gpio_index)
 void ap6210_gpio_init(void)
 {
 	struct ap6210_gpio_wifi_ops *ops = &ap6210_wifi_select_pm_ops;
-	int ap6210_lpo = 0;
+//	int ap6210_lpo = 0;
 
-/* CT expected ap6210_lpo as a GPIO , but for customized board, it's surely OK you handle it by other design, e.g. external OSC*/
-	ap6210_lpo = gpio_request_ex(wifi_para, "ap6xxx_lpo");
-	if (!ap6210_lpo) {
-		AP6210_INFO("Not using lpo gpio for clock.\n" );
-//		return;
-	}
+/* CT expected ap6210_lpo as a GPIO */
+//	ap6210_lpo = gpio_request_ex(wifi_para, "ap6xxx_lpo");
+//	if (!ap6210_lpo) {
+//		AP6210_ERR("request lpo gpio failed.\n" ); return;
+//	}
 
-	if(ap6210_lpo) {
-		AP6210_DEBUG("config 32k clock.\n" );
-		ap6210_cfg_gpio_32k_clkout(ap6210_lpo);
-	}
+//	if(ap6210_lpo) {
+//		AP6210_DEBUG("config 32k clock.\n" );
+//		ap6210_cfg_gpio_32k_clkout(ap6210_lpo);
+//	}
 
 	ap6210_wl_regon = gpio_request_ex(wifi_para, "ap6xxx_wl_regon");
 	if (!ap6210_wl_regon) {
@@ -193,7 +194,7 @@ int ap6210_gpio_wifi_get_mod_type(void)
 	if (ops->wifi_used)
 		return ops->module_sel;
 	else {
-		AP6210_ERR("No wifi type selected, please check your config.\n" );
+		AP6210_ERR("No wifi type selected due to no wifi_used, please check your config.\n" );
 		return 0;
 	}
 }
@@ -205,7 +206,7 @@ int ap6210_gpio_wifi_gpio_ctrl(char* name, int level)
 	if (ops->wifi_used && ops->gpio_ctrl)		
 		return ops->gpio_ctrl(name, level);	
 	else {		
-		AP6210_ERR("No wifi type selected, please check your config.\n" );		
+		AP6210_ERR("No wifi type selected due to wifi_used && gopi_ctrl, please check your config.\n" );		
 		return -1;	
 	}
 }
@@ -219,7 +220,7 @@ void ap6210_gpio_wifi_power(int on)
 	if (ops->wifi_used && ops->power)
 		return ops->power(1, &power);
 	else {
-		AP6210_ERR("No wifi type selected, please check your config.\n" );
+		AP6210_ERR("No wifi type selected due to wifi_used && power, please check your config.\n" );
 		return;
 	}
 }
