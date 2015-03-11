@@ -1,0 +1,22 @@
+--- linux-sunxi/arch/arm/configs/sun4i_defconfig	2015-03-11 23:55:19.795500588 +0800
++++ ap6210/arch/arm/configs/sun4i_defconfig	2015-03-11 23:47:54.925294663 +0800
+@@ -95,6 +95,13 @@
+ CONFIG_BT_HCIUART_BCSP=y
+ CONFIG_BT_HCIUART_LL=y
+ CONFIG_CFG80211=y
++
++CONFIG_AP6210=m
++CONFIG_AP6210_FW_PATH="/lib/firmware/ap6210/fw_bcmxxxx.bin"
++CONFIG_AP6210_NVRAM_PATH="/lib/firmware/ap6210/nvram_apxxxx.txt"
++CONFIG_AP6210_OOB=y
++# CONFIG_AP6210_SDIO_IRQ is not set
++
+ CONFIG_WIRELESS_EXT_SYSFS=y
+ CONFIG_RFKILL=y
+ CONFIG_DEVTMPFS=y
+@@ -325,3 +332,5 @@
+ # CONFIG_CRYPTO_HW is not set
+ CONFIG_LIBCRC32C=y
+ CONFIG_AVERAGE=y
++
++
