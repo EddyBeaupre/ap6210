@@ -136,7 +136,8 @@ static void ap6210_cfg_gpio_32k_clkout(int gpio_index)
 {
 	int ret;    
 	struct clk *clk_32k, *parent;    
-    
+   
+   	//No MARCOS defined for below items in sunxi-4i, as 32k clk actually is not mandatory if external osc used 
 	//parent = clk_get(NULL, CLK_SYS_LOSC);	
 	//clk_32k = clk_get(NULL, CLK_MOD_OUTA);
 	parent = clk_get(NULL, 'losc');	
@@ -159,18 +160,19 @@ static void ap6210_cfg_gpio_32k_clkout(int gpio_index)
 void ap6210_gpio_init(void)
 {
 	struct ap6210_gpio_wifi_ops *ops = &ap6210_wifi_select_pm_ops;
-//	int ap6210_lpo = 0;
+	int ap6210_lpo = 0;
 
 /* CT expected ap6210_lpo as a GPIO */
-//	ap6210_lpo = gpio_request_ex(wifi_para, "ap6xxx_lpo");
-//	if (!ap6210_lpo) {
-//		AP6210_ERR("request lpo gpio failed.\n" ); return;
-//	}
+	ap6210_lpo = gpio_request_ex(wifi_para, "ap6xxx_lpo");
+	if (!ap6210_lpo) {
+		AP6210_INFO("LPO is not set, supposing external OSC is used, ignoring lpo gpio setting then.\n" ); 
+		return;
+	}
 
-//	if(ap6210_lpo) {
-//		AP6210_DEBUG("config 32k clock.\n" );
-//		ap6210_cfg_gpio_32k_clkout(ap6210_lpo);
-//	}
+	if(ap6210_lpo) {
+		AP6210_DEBUG("config 32k clock.\n" );
+		ap6210_cfg_gpio_32k_clkout(ap6210_lpo);
+	}
 
 	ap6210_wl_regon = gpio_request_ex(wifi_para, "ap6xxx_wl_regon");
 	if (!ap6210_wl_regon) {
