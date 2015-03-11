@@ -1,12 +1,11 @@
-ap6210 [WIP: Not Functional Yet]
+ap6210 
 ======
 
 Fork from Eddy's Wifi and Bluetooth driver for CubieTruck.
 
 Target to extend the driver a bit to support some A10 (sunxi-4i) based customized board.
 
-
-
+Tested on A10 based , customized board in wifi & also AP mode, but bluetooth have not tested.
 
 ### How to patch and load
 
