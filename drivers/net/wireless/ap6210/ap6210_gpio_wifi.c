@@ -166,7 +166,7 @@ void ap6210_gpio_init(void)
 	ap6210_lpo = gpio_request_ex(wifi_para, "ap6xxx_lpo");
 	if (!ap6210_lpo) {
 		AP6210_INFO("LPO is not set, supposing external OSC is used, ignoring lpo gpio setting then.\n" ); 
-		return;
+		//return;	//Need not to return, as it's acceptable.
 	}
 
 	if(ap6210_lpo) {
